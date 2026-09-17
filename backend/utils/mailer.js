@@ -1,11 +1,13 @@
 const nodemailer = require("nodemailer");
 
-// Gmail SMTP transporter
+// Gmail SMTP transporter configured for Port 587 (Render compatible)
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // TLS
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // App Password (not normal password)
+    pass: process.env.EMAIL_PASS, // App Password
   },
 });
 
@@ -17,7 +19,7 @@ async function sendNotificationEmail({ name, email, subject, message }) {
 
   const mailOptions = {
     from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.RECEIVER_EMAIL,
+    to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
     replyTo: email,
     subject: `📩 New Portfolio Contact Message from ${name}`,
     html: `
