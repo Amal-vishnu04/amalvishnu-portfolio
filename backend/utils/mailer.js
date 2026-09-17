@@ -1,28 +1,16 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-// Gmail SMTP transporter configured for Port 587 with Timeouts for Render
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // TLS
-  connectionTimeout: 10000, // 10s connection timeout
-  socketTimeout: 10000,     // 10s socket inactivity timeout
-  greetingTimeout: 10000,   // 10s handshake timeout
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Google App Password
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Email sent to YOU (Amal) when someone submits the form
+// Email sent to YOU (Amal)
 async function sendNotificationEmail({ name, email, subject, message }) {
   const dateTime = new Date().toLocaleString("en-IN", {
     timeZone: "Asia/Kolkata",
   });
 
-  const mailOptions = {
-    from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
+  return resend.emails.send({
+    from: "Portfolio Contact <onboarding@resend.dev>",
+    to: process.env.RECEIVER_EMAIL || "amalvishnu21702@gmail.com",
     replyTo: email,
     subject: `📩 New Portfolio Contact Message from ${name}`,
     html: `
@@ -33,15 +21,13 @@ async function sendNotificationEmail({ name, email, subject, message }) {
       <p><strong>Message:</strong><br/>${message}</p>
       <p><strong>Date:</strong> ${dateTime}</p>
     `,
-  };
-
-  return transporter.sendMail(mailOptions);
+  });
 }
 
 // Auto-reply sent to the VISITOR
 async function sendAutoReplyEmail({ name, email }) {
-  const mailOptions = {
-    from: `"Amal Vishnu G" <${process.env.EMAIL_USER}>`,
+  return resend.emails.send({
+    from: "Amal Vishnu G <onboarding@resend.dev>",
     to: email,
     subject: "Thank you for contacting Amal Vishnu G",
     html: `
@@ -53,9 +39,7 @@ async function sendAutoReplyEmail({ name, email }) {
       Amal Vishnu G<br/>
       Full Stack MERN Developer</p>
     `,
-  };
-
-  return transporter.sendMail(mailOptions);
+  });
 }
 
 module.exports = { sendNotificationEmail, sendAutoReplyEmail };
