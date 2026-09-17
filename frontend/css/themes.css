@@ -1,0 +1,75 @@
+/* ===================== THEME 1: Warm Beige & Brown (Default) ===================== */
+body[data-theme="theme1"] {
+  --bg: #F7F3EC;
+  --surface: #FFFDF8;
+  --primary: #6F4E37;
+  --secondary: #D8C3A5;
+  --accent: #C26D3D;
+  --text: #2F241F;
+  --border: #E7DDD1;
+}
+
+/* ===================== THEME 2: Minimal White & Slate ===================== */
+body[data-theme="theme2"] {
+  --bg: #FFFFFF;
+  --surface: #F8F9FA;
+  --primary: #334155;
+  --secondary: #E2E8F0;
+  --accent: #64748B;
+  --text: #1E293B;
+  --border: #E2E8F0;
+}
+
+/* ===================== THEME 3: Soft Blue & White ===================== */
+body[data-theme="theme3"] {
+  --bg: #F0F6FF;
+  --surface: #FFFFFF;
+  --primary: #1E40AF;
+  --secondary: #BFDBFE;
+  --accent: #3B82F6;
+  --text: #1E293B;
+  --border: #DBEAFE;
+}
+
+/* ===================== THEME 4: Elegant Dark Mode ===================== */
+body[data-theme="theme4"] {
+  --bg: #0F1115;
+  --surface: #191B21;
+  --primary: #E8DCC8;
+  --secondary: #2A2D35;
+  --accent: #D8A25E;
+  --text: #F1EFEA;
+  --border: #2A2D35;
+}
+
+/* Smooth transition on theme change */
+body,
+.glass-nav,
+.skill-category,
+.service-card,
+.project-card,
+.stat-card,
+.timeline-content,
+.education-card,
+.cert-card,
+.form-group input,
+.form-group textarea,
+.form-group label {
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Active theme dot indicator */
+.theme-dot.active {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Dark theme navbar glass tweak (needs more opacity to look good on dark bg) */
+body[data-theme="theme4"] .glass-nav {
+  background: rgba(25, 27, 33, 0.6);
+  border-color: var(--border);
+}
+
+body[data-theme="theme4"] .hero-image {
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
