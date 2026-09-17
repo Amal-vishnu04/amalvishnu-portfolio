@@ -6,6 +6,9 @@ const contactRoutes = require("./routes/contact");
 
 const app = express();
 
+// Enable trust proxy for Render load balancer
+app.set("trust proxy", 1);
+
 // Middleware
 app.use(cors());
 app.use(express.json());

@@ -1,13 +1,16 @@
 const nodemailer = require("nodemailer");
 
-// Gmail SMTP transporter configured for Port 587 (Render compatible)
+// Gmail SMTP transporter configured for Port 587 with Timeouts for Render
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // TLS
+  connectionTimeout: 10000, // 10s connection timeout
+  socketTimeout: 10000,     // 10s socket inactivity timeout
+  greetingTimeout: 10000,   // 10s handshake timeout
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // App Password
+    pass: process.env.EMAIL_PASS, // Google App Password
   },
 });
 
