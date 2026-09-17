@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLoader = submitBtn.querySelector(".btn-loader");
   const formStatus = document.getElementById("form-status");
 
-  // 👉 Backend URL — local testing ku idhu, deploy pannும்போது change pannanum
-  const API_URL = "http://localhost:5000/api/contact";
+  // Live Render Backend API Endpoint
+  const API_URL = "https://amalvishnu-portfolio.onrender.com/api/contact";
   const RECAPTCHA_SITE_KEY = "6LeoJGstAAAAACS0F85y_psp7rJsw8a659ce0fNH";
 
   form.addEventListener("submit", async (e) => {
