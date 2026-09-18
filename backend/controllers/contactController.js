@@ -8,12 +8,10 @@ async function verifyRecaptcha(token) {
     { method: "POST" }
   );
   const data = await response.json();
-  console.log("reCAPTCHA response:", data); // 👈 debug — score correct ah varudha nu paakalam
-  // score >= 0.5 means likely human
   return data.success && data.score >= 0.5;
 }
 
-// Basic sanitize: strip HTML tags to avoid injection
+// Basic sanitize: strip HTML tags
 function sanitize(text) {
   return String(text).replace(/<\/?[^>]+(>|$)/g, "").trim();
 }
@@ -47,12 +45,15 @@ exports.submitContactForm = async (req, res) => {
       message: sanitize(message),
     };
 
-    // 4. Send emails
-    await sendNotificationEmail(clean);
-    await sendAutoReplyEmail(clean);
+    // 4. Send emails asynchronously in background (Fast Response)
+    sendNotificationEmail(clean).catch((err) =>
+      console.error("Notification Email Error:", err)
+    );
+    sendAutoReplyEmail(clean).catch((err) =>
+      console.error("AutoReply Email Error (Resend free restriction):", err)
+    );
 
-    // 5. (Optional) Save to MongoDB — will add if you confirm you need it
-
+    // 5. Send fast success response to Frontend UI
     return res.status(200).json({
       success: true,
       message: "Message sent successfully!",
